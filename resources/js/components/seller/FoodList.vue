@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h3>This is The Footer</h3>
+        Seller's Food List!
     </div>
 </template>
 
 <script>
-export default {
-    
-}
+    export default {
+        
+    }
 </script>
 
 <style lang="scss" scoped>

@@ -7,30 +7,42 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-        </style>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <style>
+
+            html, body {
+                height: 100%;
+            }
+            body {
+                display: flex;
+                flex-direction: column;
+            }
+            #app {
+                flex: 1 0 auto;
+            }
+            footer {
+                flex-shrink: 0;
+            }
+
+        </style>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
 
     </head>
     <body>
+
+        {{-- vue files (Single Page Application) --}}
         <div id="app">
             <App></App>
         </div>
+
+        {{-- sticky footer --}}
+        <footer class="w-100 text-center">
+            <span class="h6 font-italic">The Awesome Company &copy; all rights reserved 2020</span>
+        </footer>
+
     </body>
 </html>

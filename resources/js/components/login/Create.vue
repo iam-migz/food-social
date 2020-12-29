@@ -19,7 +19,7 @@
         </div>
 
             <div v-if=" type === 'customer' ">
-                <h2>create a customer account</h2>
+                <h2>Create a Customer Account</h2>
                <form id="customer">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -47,7 +47,7 @@
             </div>
 
             <div v-else>
-                <h2>create a seller account</h2>
+                <h2>Create a Seller Account</h2>
                <form id="seller">
                     <div class="form-group">
                         <label for="name">Restaurant Name</label>
@@ -78,6 +78,11 @@
 
             </div>
 
+            <span class="form-text text-primary text-center text-decoration">
+                <router-link to="/login">
+                    Already have an account? Login here
+                </router-link>
+            </span>
         </div>
 
     </div>

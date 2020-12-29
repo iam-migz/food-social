@@ -7,20 +7,17 @@
 
             <router-view></router-view>
 
-            <Footer></Footer>
-             
         </div>
-       
+
     </div>
 </template>
 
 <script>
 
 import Header from './partials/Header';
-import Footer from './partials/Footer';
 
 export default {
-    components: { Header, Footer },
+    components: { Header },
     data() {
         return {
 
@@ -33,5 +30,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
 </style>
