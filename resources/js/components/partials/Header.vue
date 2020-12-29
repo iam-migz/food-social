@@ -1,6 +1,12 @@
 <template>
     <div>
-        <h1>This is the header</h1>
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light border-bottom">
+        <a class="navbar-brand" href="#">
+            <svg class="w-6 h-6" style="width: 25px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            Food & Socials
+        </a>
+        </nav>
     </div>
 </template>
 
