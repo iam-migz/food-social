@@ -11,12 +11,12 @@
                 </select>
             </div>
 
-        <div class="alert alert-warning fade show hide" id="dissmiss">
-            <strong>Ops,</strong> Please fill the form correctly
-            <button type="button" class="btn btn-outline-dark" @click="dissmiss">
-                <svg style="height: 20px; " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
+            <div class="alert alert-warning fade show hide" id="dissmiss">
+                <span>Ops, Please fill the form correctly</span>
+                <span style="float: right;" @click="dissmiss">
+                    <svg style="height: 15px;" id="hoverExit" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </span>
+            </div>
 
             <div v-if=" type === 'customer' ">
                 <h2>Create a Customer Account</h2>
@@ -119,7 +119,7 @@ export default {
             }
 
             axios.post('/api/customer/store', customer)
-                .then(res => this.$router.push('/'))
+                .then(res => this.$router.push(`/${res.data.id}/customer`))
                 .catch(err => console.log(err));
         },
         createSeller(event){
@@ -147,7 +147,7 @@ export default {
             }
 
             axios.post('/api/seller/store', seller)
-                .then(res => this.$router.push('/') )
+                .then(res => this.$router.push(`/${res.data.id}/seller`) )
                 .catch(err => console.log(err));
 
         },
@@ -162,5 +162,8 @@ export default {
 
 .hide {
     display: none;
+}
+#hoverExit:hover {
+    color: red;
 }
 </style>

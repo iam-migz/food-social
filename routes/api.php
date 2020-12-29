@@ -14,8 +14,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('/customer')->group( function() {
     Route::post('/store', [CustomerController::class, 'store']);
+    Route::post('/check', [CustomerController::class, 'check']);
 });
 
 Route::prefix('/seller')->group( function() {
     Route::post('/store', [SellerController::class, 'store']);
+    Route::post('/check', [SellerController::class, 'check']);
 });

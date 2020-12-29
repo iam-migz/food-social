@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Customer;
 
 class CustomerController extends Controller
@@ -30,12 +31,14 @@ class CustomerController extends Controller
         $customer->username = $request->username;
         $customer->address = $request->address;
         $customer->email = $request->email;
-        $customer->password = $request->password;
+
+        // hash password
+        $customer->password = Hash::make($request->password);
         $customer->phone = $request->phone;
 
         $customer->save();
         
-        return $customer;
+        return ['id' => $customer->id ];
     }
 
     /**
@@ -70,5 +73,23 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function check(Request $request){
+
+        $customer = Customer::where('email', '=', $request->email)->first();
+        
+        // check if not found
+        if ( !$customer ) {
+            return [ 'success' => false, 'message' => 'Email Not Found' ]; 
+        }
+
+        $result = Hash::check($request->password, $customer->password);
+
+        if ( $result ) {
+            return [ 'success' => true, 'id' => $customer->id ];
+        } else {  // incorrect password
+            return [ 'success' => false, 'message' => 'incorrect password' ]; 
+        }
     }
 }

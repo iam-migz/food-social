@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Seller;
 
 class SellerController extends Controller
@@ -31,12 +32,16 @@ class SellerController extends Controller
         $seller->username = $request->username;
         $seller->address = $request->address;
         $seller->email = $request->email;
-        $seller->password = $request->password;
+
+        // hash password
+        $seller->password = Hash::make($request->password);
+        $seller->phone = $request->phone;
+
         $seller->phone = $request->phone;
 
         $seller->save();
 
-        return $seller;
+        return ['id' => $seller->id ];
     }
 
     /**
@@ -72,4 +77,24 @@ class SellerController extends Controller
     {
         //
     }
+
+
+    public function check(Request $request){
+
+        $seller = Seller::where('email', '=', $request->email)->first();
+        
+        // check if not found
+        if ( !$seller ) {
+            return [ 'success' => false, 'message' => 'Email Not Found' ]; 
+        }
+
+        $result = Hash::check($request->password, $seller->password);
+
+        if ( $result ) {
+            return [ 'success' => true, 'id' => $seller->id ];
+        } else {  // incorrect password
+            return [ 'success' => false, 'message' => 'incorrect password' ]; 
+        }
+    }
+
 }
