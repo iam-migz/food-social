@@ -2555,7 +2555,7 @@ __webpack_require__.r(__webpack_exports__);
           if (res.data.success) {
             console.log('success');
 
-            _this.$router.push("/".concat(res.data.id, "/customer/list"));
+            _this.$router.push("/".concat(res.data.id, "/customer"));
           } else {
             console.log('failed');
             console.log(res.data.message);
@@ -2732,6 +2732,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2777,6 +2780,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         return console.log(err);
       });
+    },
+    cancelEdit: function cancelEdit() {
+      this.$router.push("/".concat(this.id, "/seller/list"));
     }
   },
   created: function created() {
@@ -40614,6 +40620,18 @@ var render = function() {
           },
           [_vm._v("Edit")]
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-block",
+            attrs: { type: "submit" },
+            on: { click: _vm.cancelEdit }
+          },
+          [_vm._v("Cancel")]
+        )
       ])
     ])
   ])
@@ -57421,8 +57439,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Miguel\Documents\Laravel\food-social\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Miguel\Documents\Laravel\food-social\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\xenon\OneDrive\Desktop\composer\food-social\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\xenon\OneDrive\Desktop\composer\food-social\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

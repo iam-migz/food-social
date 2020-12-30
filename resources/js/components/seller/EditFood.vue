@@ -17,6 +17,9 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block" @click="saveFood">Edit</button>
             </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block" @click="cancelEdit">Cancel</button>
+            </div>
         </form>
     </div>
 </template>
@@ -63,6 +66,10 @@ export default {
                  })
                  .catch(err => console.log(err));
 
+        },
+
+        cancelEdit(){
+            this.$router.push(`/${this.id}/seller/list`);
         }
     },
     created(){
