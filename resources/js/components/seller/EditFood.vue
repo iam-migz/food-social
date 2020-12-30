@@ -1,21 +1,21 @@
 <template>
     <div>
-        <h5 class="text-muted my-4">add food to your restaurant</h5>
+        <h5 class="text-muted my-4">Edit Food</h5>
         <form id="addFood">
             <div class="form-group">
                 <label for="name">Food Name</label>
-                <input type="text" class="form-control" name="name" placeholder="food name ex. adobo">
+                <input type="text" class="form-control" name="name" :value="food.name">
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" class="form-control"  name="price" placeholder="₱">
+                <input type="number" class="form-control"  name="price" :value="food.price">
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input type="number" class="form-control" name="quantity" placeholder="# Available Servings or Stock">
+                <input type="number" class="form-control" name="quantity" :value="food.quantity">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" @click="saveFood">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block" @click="saveFood">Edit</button>
             </div>
         </form>
     </div>
@@ -26,9 +26,17 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
+            food_id: this.$route.params.food_id,
+            food: {}
         }
     },
     methods: {
+        getFood(){
+            axios.get(`/api/food/${this.food_id}`)
+                 .then(res => this.food = res.data[0])
+                 .catch(err => console.log(err));
+        },
+
         saveFood(event){
             event.preventDefault();
             const form = document.querySelector('form#addFood');
@@ -45,7 +53,7 @@ export default {
                 'quantity': form.quantity.value 
             }
             console.log(food);
-            axios.post('/api/food/store', food)
+            axios.put(`/api/food/${this.food_id}`, food)
                  .then(res => {
                      if ( res.data ){
                          this.$router.push(`/${this.id}/seller/list`);
@@ -56,6 +64,9 @@ export default {
                  .catch(err => console.log(err));
 
         }
+    },
+    created(){
+        this.getFood();
     }
 }
 </script>

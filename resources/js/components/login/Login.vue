@@ -66,7 +66,7 @@ export default {
                        
                         if ( res.data.success ){
                             console.log('success');
-                            this.$router.push(`/${res.data.id}/customer/`);
+                            this.$router.push(`/${res.data.id}/customer/list`);
                         } else {
                             console.log('failed');
                             console.log(res.data.message);
@@ -82,7 +82,7 @@ export default {
                        
                         if ( res.data.success ){
                             console.log('success');
-                            this.$router.push(`/${res.data.id}/seller/`);
+                            this.$router.push(`/${res.data.id}/seller/list`);
                         } else {
                             console.log('failed');
                             console.log(res.data.message);

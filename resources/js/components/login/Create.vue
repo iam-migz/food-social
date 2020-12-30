@@ -147,7 +147,7 @@ export default {
             }
 
             axios.post('/api/seller/store', seller)
-                .then(res => this.$router.push(`/${res.data.id}/seller`) )
+                .then(res => this.$router.push(`/${res.data.id}/seller/list`) )
                 .catch(err => console.log(err));
 
         },

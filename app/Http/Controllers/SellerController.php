@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Seller;
+use DB;
 
 class SellerController extends Controller
 {
@@ -52,7 +53,7 @@ class SellerController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::table('sellers')->where('id', $id)->get();
     }
 
     /**
@@ -95,6 +96,12 @@ class SellerController extends Controller
         } else {  // incorrect password
             return [ 'success' => false, 'message' => 'incorrect password' ]; 
         }
+    }
+
+    public function getFoods($id){
+
+        $seller = Seller::find($id);
+        return $seller->foods;
     }
 
 }
