@@ -13,7 +13,11 @@ import Orders from './components/seller/Orders';
 import EditFood from './components/seller/EditFood';
 
 // Customer Pages
-import CustomerLanding from './components/customer/CustomerLanding';
+import Customer from './components/customer/Customer';
+import Foods from './components/customer/Foods';
+import Restaurants from './components/customer/Restaurants';
+import YourOrders from './components/customer/YourOrders';
+import ViewFood from './components/customer/ViewFood';
 
 Vue.use(VueRouter);
 
@@ -34,7 +38,16 @@ export default new VueRouter({
             ]
         },
 
-        { path: '/customerlanding', component: CustomerLanding },
+        { path: '/:id/customer', component: Customer , children: 
+            [
+                { path: 'foods', component: Foods },
+                { path: 'restaurants', component: Restaurants },
+                { path: 'yourorders', component: YourOrders },
+                { path: 'view/:index', component: ViewFood }
+            ]
+        },
+
+
         { path: '*', component: NotFound }
     ],
     mode: 'history'

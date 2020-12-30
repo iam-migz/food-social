@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Customer;
+use DB;
 
 class CustomerController extends Controller
 {
@@ -49,7 +50,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        return DB::table('customers')->where('id', $id)->get();
     }
 
     /**
@@ -92,4 +93,10 @@ class CustomerController extends Controller
             return [ 'success' => false, 'message' => 'incorrect password' ]; 
         }
     }
+
+    public function getOrders($id){
+        $customer = Customer::find($id);
+        return $customer->orders;
+    }
+
 }
