@@ -34,7 +34,6 @@ export default new VueRouter({
                 { path: 'list', component: FoodList },
                 { path: 'orders', component: Orders },
                 { path: 'edit/:food_id', component: EditFood },
-                
             ]
         },
 

@@ -26,6 +26,7 @@ Route::prefix('/seller')->group( function() {
     Route::post('/store', [SellerController::class, 'store']);
     Route::post('/check', [SellerController::class, 'check']);
     Route::get('/foods/{id}', [SellerController::class, 'getFoods']);
+    Route::get('/orders/{id}', [SellerController::class, 'getOrders']);
     Route::get('/{id}', [SellerController::class, 'show']);
 });
 

@@ -104,4 +104,28 @@ class SellerController extends Controller
         return $seller->foods;
     }
 
+    
+    public function getOrders($id){
+        $ordersArray = [];
+        $seller = Seller::find($id);
+        foreach($seller->foods as $food) {
+            foreach($food->orders as $orderCtr){
+                $information = [
+                    'food_name' => $food->name,
+                    'food_price' => $food->price,
+                    'food_quantity' => $food->quantity,
+                    'completed' => $orderCtr->completed,
+                    'customer_name' => $orderCtr->customer->username,
+                    'customer_address' => $orderCtr->customer->address,
+                    'customer_phone' => $orderCtr->customer->phone
+                ];
+                array_push($ordersArray, $information);
+
+            }
+            
+        }
+        return $ordersArray;
+    }
+
+
 }

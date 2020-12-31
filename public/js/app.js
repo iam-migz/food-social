@@ -2867,7 +2867,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      id: this.$route.params.id,
+      orders: []
+    };
+  },
+  methods: {
+    getOrdersInformation: function getOrdersInformation() {
+      var _this = this;
+
+      axios.get("/api/seller/orders/".concat(this.id)).then(function (res) {
+        return _this.orders = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    this.getOrdersInformation();
+  }
+});
 
 /***/ }),
 
@@ -40420,39 +40441,27 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("nav", { staticClass: "navbar navbar-light bg-light border-bottom" }, [
-      _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
-        _c(
-          "svg",
-          {
-            staticClass: "w-6 h-6",
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("nav", { staticClass: "navbar navbar-light bg-light border-bottom" }, [
+        _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
+          _c("img", {
             staticStyle: { width: "25px" },
-            attrs: {
-              fill: "none",
-              stroke: "currentColor",
-              viewBox: "0 0 24 24",
-              xmlns: "http://www.w3.org/2000/svg"
-            }
-          },
-          [
-            _c("path", {
-              attrs: {
-                "stroke-linecap": "round",
-                "stroke-linejoin": "round",
-                "stroke-width": "2",
-                d: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-              }
-            })
-          ]
-        ),
-        _vm._v(" "),
-        _c("span", [_vm._v("Food & Socials")])
+            attrs: { src: "/img/favicon.png" }
+          }),
+          _vm._v(" "),
+          _c("span", [_vm._v("Food & Socials")])
+        ])
       ])
     ])
-  ])
-}
-var staticRenderFns = []
+  }
+]
 render._withStripped = true
 
 
