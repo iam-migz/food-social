@@ -111,6 +111,7 @@ class SellerController extends Controller
         foreach($seller->foods as $food) {
             foreach($food->orders as $orderCtr){
                 $information = [
+                    'order_id' => $orderCtr->id,
                     'food_name' => $food->name,
                     'food_price' => $food->price,
                     'food_quantity' => $food->quantity,

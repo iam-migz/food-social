@@ -66,7 +66,7 @@ export default {
                        
                         if ( res.data.success ){
                             console.log('success');
-                            this.$router.push(`/${res.data.id}/customer/list`);
+                            this.$router.push(`/${res.data.id}/customer/foods`);
                         } else {
                             console.log('failed');
                             console.log(res.data.message);

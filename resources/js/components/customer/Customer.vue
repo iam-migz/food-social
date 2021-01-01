@@ -57,12 +57,7 @@ export default {
     methods: {
         getCustomer(){
             axios.get(`/api/customer/${this.id}`)
-                .then(res => {
-                    this.customer = res.data[0];
-                    if (!this.customer){ // if customer is not found, just go to catch all 404 page
-                        this.$router.push('404');
-                    }
-                })
+                .then(res => this.customer = res.data[0])
                 .catch(err => console.log(err));
         },
         getFoods(){

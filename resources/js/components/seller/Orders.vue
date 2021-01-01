@@ -1,6 +1,17 @@
 <template>
     <div>
-        Seller's Orders
+
+        <div class="d-flex p-3">
+            <router-link :to="`/${id}/seller/orders/new`" class="mr-3">
+                <button type="button" class="btn btn-success">New Orders</button>
+            </router-link>
+    
+            <router-link :to="`/${id}/seller/orders/completed`" class="mr-3">
+                <button type="button" class="btn btn-secondary">Completed Orders</button>
+            </router-link>
+        </div>
+
+        <router-view></router-view>
     </div>
 </template>
 
@@ -9,20 +20,8 @@ export default {
     data() {
         return {
             id: this.$route.params.id,
-            orders: []
         }
-    },
-    methods: {
-        getOrdersInformation(){
-            axios.get(`/api/seller/orders/${this.id}`)
-                 .then(res => this.orders = res.data )
-                 .catch(err => console.log(err));
-        }
-    },
-    created(){
-        this.getOrdersInformation();
     }
-
 }
 </script>
 

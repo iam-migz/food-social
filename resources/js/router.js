@@ -9,8 +9,10 @@ import NotFound from './components/NotFound';
 import Seller from './components/seller/Seller';
 import AddFood from './components/seller/AddFood';
 import FoodList from './components/seller/FoodList';
-import Orders from './components/seller/Orders';
 import EditFood from './components/seller/EditFood';
+import Orders from './components/seller/Orders';
+import CompletedOrders from './components/seller/CompletedOrders';
+import NewOrders from './components/seller/NewOrders';
 
 // Customer Pages
 import Customer from './components/customer/Customer';
@@ -32,7 +34,12 @@ export default new VueRouter({
             [
                 { path: 'add', component: AddFood },
                 { path: 'list', component: FoodList },
-                { path: 'orders', component: Orders },
+                { path: 'orders', component: Orders, children: 
+                    [
+                        { path: 'new', component: NewOrders }, 
+                        { path: 'completed', component: CompletedOrders }
+                    ] 
+                },
                 { path: 'edit/:food_id', component: EditFood },
             ]
         },

@@ -40,7 +40,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -52,7 +52,10 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::find($id);
+        $order->completed = 1;
+        $order->save();
+        return $order;
     }
 
     /**

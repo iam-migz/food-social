@@ -40,4 +40,5 @@ Route::prefix('/food')->group( function() {
 
 Route::prefix('/order')->group( function() {
     Route::post('/store', [OrderController::class, 'store']);
+    Route::put('/{id}', [OrderController::class, 'update']);
 });
