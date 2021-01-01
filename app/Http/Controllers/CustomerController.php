@@ -50,7 +50,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        return DB::table('customers')->where('id', $id)->get();
+        return Customer::find($id);
     }
 
     /**
@@ -95,8 +95,28 @@ class CustomerController extends Controller
     }
 
     public function getOrders($id){
+
+        $ordersArray = [];
         $customer = Customer::find($id);
-        return $customer->orders;
+
+        $orders = $customer->orders->where('completed', '=', 0);
+
+        foreach($orders as $order) {
+            $information = [
+                'order_id' => $order->id,
+                'order_completed' => $order->completed,
+
+                'food_name' => $order->food->name,
+                'food_price' => $order->food->price,
+
+                'restaurant_name' => $order->food->seller->restaurant_name,
+                'restaurant_phone' => $order->food->seller->phone,
+                'restaurant_address' => $order->food->seller->address
+            ];
+            array_push($ordersArray, $information);
+            
+        }
+        return $ordersArray;
     }
 
 }

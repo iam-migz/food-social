@@ -78,4 +78,24 @@ class FoodController extends Controller
         $food->delete();
         return ['success' => true];
     }
+
+    public function getFoodsInfo(){
+        $foods = Food::all();
+        $foodsArray = [];
+        foreach($foods as $food){
+            $information = [
+                'id' => $food->id,
+                'seller_id' => $food->seller_id,
+                'name' => $food->name,
+                'price' => $food->price,
+                'quantity' => $food->quantity,
+                'restaurant_name' => $food->seller->restaurant_name,
+                'restaurant_owner' => $food->seller->username,
+                'restaurant_address' => $food->seller->address,
+            ];
+            array_push($foodsArray, $information);
+        }
+
+        return $foodsArray;
+    }
 }

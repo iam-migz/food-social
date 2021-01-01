@@ -3,12 +3,12 @@
         <div>
             <div class="card">
             <div class="card-body">
-                <h5 class="card-title"> {{ foodList[index].name }} </h5>
-                <p class="card-text">₱ {{ foodList[index].price }}</p>
-                <p class="card-text border-bottom">Available: {{ foodList[index].quantity }}</p>
-                <h6 class="card-title"> {{ foodList[index].restaurant_name }} </h6>
-                <p class="card-text">Managed by: {{ foodList[index].restaurant_owner }}</p>
-                <p class="card-text">Located at: {{ foodList[index].restaurant_address }}</p>
+                <h5 class="card-title"> {{ foodsInfo[index].name }} </h5>
+                <p class="card-text">₱ {{ foodsInfo[index].price }}</p>
+                <p class="card-text border-bottom">Available: {{ foodsInfo[index].quantity }}</p>
+                <h6 class="card-title"> {{ foodsInfo[index].restaurant_name }} </h6>
+                <p class="card-text">Managed by: {{ foodsInfo[index].restaurant_owner }}</p>
+                <p class="card-text">Located at: {{ foodsInfo[index].restaurant_address }}</p>
                 <button type="button" class="btn btn-success" @click="makeOrder" >Place Order</button>
             </div>
             </div>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    props: ['foodList'],
+    props: ['foodsInfo'],
     data() {
         return {
             id: this.$route.params.id,
@@ -32,14 +32,13 @@ export default {
 
             const order = {
                 'customer_id': this.id,
-                'food_id': this.foodList[this.index].id,
-                'amount': this.foodList[this.index].price,
+                'food_id': this.foodsInfo[this.index].id,
+                'amount': this.foodsInfo[this.index].price,
                 'completed': false
             }
-            console.log(order);
-            return
+ 
             axios.post('/api/order/store', order)
-                 .then(res => this.$router.push(`/${this.id}/customer/foods`) )
+                 .then(res => this.$router.push(`/${this.id}/customer/yourorders`) )
                  .catch(err => console.log(err));
         }
     }

@@ -4,7 +4,7 @@
         <div class="d-flex flex-wrap">
             
             <div class="w-50" 
-                v-for="(food, index) in foodList"
+                v-for="(food, index) in foodsInfo"
                 :key="index"
             >
                 <div class="card">
@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        props: ['foodList'],
+        props: ['foodsInfo'],
         data() {
             return {
                 id: this.$route.params.id,

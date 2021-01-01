@@ -36,7 +36,7 @@
             </div>
 
 
-            <router-view :food-list="foods" :restaurant-list="restaurants"></router-view>
+            <router-view :foods-info="foodsInfo" :restaurant-list="restaurants"></router-view>
 
         </div>
 
@@ -50,34 +50,19 @@ export default {
         return {
             id: this.$route.params.id,
             customer: {},
-            foods: [],
+            foodsInfo: [],
             restaurants: []
         }
     },
     methods: {
         getCustomer(){
             axios.get(`/api/customer/${this.id}`)
-                .then(res => this.customer = res.data[0])
+                .then(res => this.customer = res.data)
                 .catch(err => console.log(err));
         },
         getFoods(){
-            axios.get('/api/food/index')
-                 .then(res => { // res.data is an object
-                     let foods = res.data;
-                     foods.forEach(food => {
-                         axios.get(`/api/seller/${food.seller_id}`)
-                             .then(sellerArray => {
-                                 let seller = sellerArray.data[0];
-                                 this.foods.push({
-                                     ...food,
-                                     'restaurant_name': seller.restaurant_name,
-                                     'restaurant_owner': seller.username,
-                                     'restaurant_address': seller.address
-                                 });
-                             })
-                             .catch(err => console.log(err));
-                     })
-                 })
+            axios.get('/api/food/info')
+                 .then(res => this.foodsInfo = res.data )
                  .catch(err => console.log(err));
         },
         getSeller(){

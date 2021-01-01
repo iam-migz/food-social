@@ -25,6 +25,7 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
     routes: [
+
         { path: '/', redirect: '/login' },
 
         { path: '/create', component: Create },

@@ -1964,12 +1964,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 //
 //
 //
@@ -2021,7 +2015,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       id: this.$route.params.id,
       customer: {},
-      foods: [],
+      foodsInfo: [],
       restaurants: []
     };
   },
@@ -2030,7 +2024,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       axios.get("/api/customer/".concat(this.id)).then(function (res) {
-        return _this.customer = res.data[0];
+        return _this.customer = res.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2038,22 +2032,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getFoods: function getFoods() {
       var _this2 = this;
 
-      axios.get('/api/food/index').then(function (res) {
-        // res.data is an object
-        var foods = res.data;
-        foods.forEach(function (food) {
-          axios.get("/api/seller/".concat(food.seller_id)).then(function (sellerArray) {
-            var seller = sellerArray.data[0];
-
-            _this2.foods.push(_objectSpread(_objectSpread({}, food), {}, {
-              'restaurant_name': seller.restaurant_name,
-              'restaurant_owner': seller.username,
-              'restaurant_address': seller.address
-            }));
-          })["catch"](function (err) {
-            return console.log(err);
-          });
-        });
+      axios.get('/api/food/info').then(function (res) {
+        return _this2.foodsInfo = res.data;
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2112,7 +2092,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['foodList'],
+  props: ['foodsInfo'],
   data: function data() {
     return {
       id: this.$route.params.id
@@ -2189,7 +2169,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['foodList'],
+  props: ['foodsInfo'],
   data: function data() {
     return {
       id: this.$route.params.id,
@@ -2203,14 +2183,12 @@ __webpack_require__.r(__webpack_exports__);
       event.preventDefault();
       var order = {
         'customer_id': this.id,
-        'food_id': this.foodList[this.index].id,
-        'amount': this.foodList[this.index].price,
+        'food_id': this.foodsInfo[this.index].id,
+        'amount': this.foodsInfo[this.index].price,
         'completed': false
       };
-      console.log(order);
-      return;
       axios.post('/api/order/store', order).then(function (res) {
-        return _this.$router.push("/".concat(_this.id, "/customer/foods"));
+        return _this.$router.push("/".concat(_this.id, "/customer/yourorders"));
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2229,12 +2207,29 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2269,7 +2264,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
-    getOrders: function getOrders() {
+    getOrderInfo: function getOrderInfo() {
       var _this = this;
 
       axios.get("/api/customer/orders/".concat(this.id)).then(function (res) {
@@ -2278,30 +2273,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return console.log(err);
       });
     },
-    getFoods: function getFoods() {
+    deleteOrder: function deleteOrder(order_id) {
       var _this2 = this;
 
-      this.orders.forEach(function (order, index) {
-        _this2.foodList.forEach(function (food) {
-          if (order.food_id === food.id) {
-            _this2.orders[index] = _objectSpread(_objectSpread({}, _this2.orders[index]), {}, {
-              'food_name': food.name,
-              'food_price': food.price,
-              'restaurant_name': food.restaurant_name
-            });
-          }
-        });
+      axios["delete"]("/api/order/".concat(order_id)).then(function (res) {
+        return _this2.$router.go();
+      })["catch"](function (err) {
+        return console.log(err);
       });
-      this.ready = true;
     }
   },
   created: function created() {
-    this.getOrders();
-  },
-  watch: {
-    foodList: function foodList() {
-      this.getFoods();
-    }
+    this.getOrderInfo();
   }
 });
 
@@ -39776,7 +39759,10 @@ var render = function() {
         ),
         _vm._v(" "),
         _c("router-view", {
-          attrs: { "food-list": _vm.foods, "restaurant-list": _vm.restaurants }
+          attrs: {
+            "foods-info": _vm.foodsInfo,
+            "restaurant-list": _vm.restaurants
+          }
         })
       ],
       1
@@ -39811,7 +39797,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "d-flex flex-wrap" },
-      _vm._l(_vm.foodList, function(food, index) {
+      _vm._l(_vm.foodsInfo, function(food, index) {
         return _c("div", { key: index, staticClass: "w-50" }, [
           _c("div", { staticClass: "card" }, [
             _c(
@@ -39930,31 +39916,31 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-body" }, [
           _c("h5", { staticClass: "card-title" }, [
-            _vm._v(" " + _vm._s(_vm.foodList[_vm.index].name) + " ")
+            _vm._v(" " + _vm._s(_vm.foodsInfo[_vm.index].name) + " ")
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "card-text" }, [
-            _vm._v("₱ " + _vm._s(_vm.foodList[_vm.index].price))
+            _vm._v("₱ " + _vm._s(_vm.foodsInfo[_vm.index].price))
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "card-text border-bottom" }, [
-            _vm._v("Available: " + _vm._s(_vm.foodList[_vm.index].quantity))
+            _vm._v("Available: " + _vm._s(_vm.foodsInfo[_vm.index].quantity))
           ]),
           _vm._v(" "),
           _c("h6", { staticClass: "card-title" }, [
-            _vm._v(" " + _vm._s(_vm.foodList[_vm.index].restaurant_name) + " ")
+            _vm._v(" " + _vm._s(_vm.foodsInfo[_vm.index].restaurant_name) + " ")
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "card-text" }, [
             _vm._v(
-              "Managed by: " + _vm._s(_vm.foodList[_vm.index].restaurant_owner)
+              "Managed by: " + _vm._s(_vm.foodsInfo[_vm.index].restaurant_owner)
             )
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "card-text" }, [
             _vm._v(
               "Located at: " +
-                _vm._s(_vm.foodList[_vm.index].restaurant_address)
+                _vm._s(_vm.foodsInfo[_vm.index].restaurant_address)
             )
           ]),
           _vm._v(" "),
@@ -39995,59 +39981,142 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "mt-3" }, [
-    _c("h2", [_vm._v("Your Orders")]),
+    _c("div", { staticClass: "title" }, [
+      _vm.orders.length
+        ? _c("h3", [
+            _vm._v(_vm._s(_vm.orders.length) + " order"),
+            _vm.orders.length > 1 ? _c("span", [_vm._v("s")]) : _vm._e(),
+            _vm._v(" to receive\n        ")
+          ])
+        : _vm._e()
+    ]),
     _vm._v(" "),
-    _vm.ready
-      ? _c(
-          "div",
-          { staticClass: "d-flex flex-wrap mt-3" },
-          _vm._l(_vm.orders, function(order, index) {
-            return _c("div", { key: index, staticClass: "w-50" }, [
-              _c("div", { staticClass: "card" }, [
+    _c(
+      "div",
+      { staticClass: "d-flex flex-wrap" },
+      [
+        _vm._l(_vm.orders, function(order, index) {
+          return _c("div", { key: index, staticClass: "w-50" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-body" }, [
                 _c(
-                  "div",
-                  { staticClass: "card-body" },
-                  [
-                    _c("h5", { staticClass: "card-title" }, [
-                      _vm._v(_vm._s(order.food_name))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v(" " + _vm._s(order.restaurant_name) + " ")
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "card-text" }, [
-                      _vm._v("₱ " + _vm._s(order.food_price))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "router-link",
-                      {
-                        attrs: { to: "/" + _vm.id + "/customer/view/" + index }
-                      },
-                      [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: { type: "button" }
-                          },
-                          [_vm._v("Cancel Order")]
-                        )
-                      ]
-                    )
-                  ],
-                  1
+                  "span",
+                  { staticClass: "card-subtitle text-muted d-inline-block" },
+                  [_vm._v("ordered food ")]
+                ),
+                _vm._v(" "),
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(order.food_name))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-subtitle border-bottom" }, [
+                  _vm._v("₱ " + _vm._s(order.food_price) + ".00")
+                ]),
+                _vm._v(" "),
+                _c("span", { staticClass: "card-subtitle text-muted mt-3" }, [
+                  _vm._v("restaurant detail ")
+                ]),
+                _vm._v(" "),
+                _c("h5", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(order.restaurant_name))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-subtitle mt-2" }, [
+                  _c(
+                    "svg",
+                    {
+                      staticStyle: { width: "16px" },
+                      attrs: {
+                        fill: "none",
+                        stroke: "currentColor",
+                        viewBox: "0 0 24 24",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          d:
+                            "M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(order.restaurant_address) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-subtitle" }, [
+                  _c(
+                    "svg",
+                    {
+                      staticStyle: { width: "16px" },
+                      attrs: {
+                        fill: "none",
+                        stroke: "currentColor",
+                        viewBox: "0 0 24 24",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          d:
+                            "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        }
+                      })
+                    ]
+                  ),
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(order.restaurant_phone) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger mt-3",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteOrder(order.order_id)
+                      }
+                    }
+                  },
+                  [_vm._v("Cancel Order")]
                 )
               ])
             ])
-          }),
-          0
-        )
-      : _vm._e()
+          ])
+        }),
+        _vm._v(" "),
+        _vm.orders === undefined || _vm.orders == 0
+          ? _c("div", { staticClass: "mt-3 mx-auto" }, [_vm._m(0)])
+          : _vm._e()
+      ],
+      2
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", [_c("i", [_vm._v("you have no new orders")])])
+  }
+]
 render._withStripped = true
 
 
