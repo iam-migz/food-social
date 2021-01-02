@@ -79,6 +79,7 @@ export default {
         },
         filterReset(){
             this.foodsInfo = this.foodsInfoCopy;
+            document.querySelector('input#search').value = '';
         }
     },
     created(){

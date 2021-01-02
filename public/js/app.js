@@ -2050,6 +2050,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     filterReset: function filterReset() {
       this.foodsInfo = this.foodsInfoCopy;
+      document.querySelector('input#search').value = '';
     }
   },
   created: function created() {
@@ -2069,6 +2070,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2190,6 +2195,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['foodsInfo'],
   data: function data() {
@@ -2206,9 +2214,9 @@ __webpack_require__.r(__webpack_exports__);
       var order = {
         'customer_id': this.id,
         'food_id': this.foodsInfo[this.index].id,
-        'amount': this.foodsInfo[this.index].price,
         'completed': false
       };
+      console.log(order);
       axios.post('/api/order/store', order).then(function (res) {
         return _this.$router.push("/".concat(_this.id, "/customer/yourorders"));
       })["catch"](function (err) {
@@ -2439,7 +2447,7 @@ __webpack_require__.r(__webpack_exports__);
         "password": form.password.value
       };
       axios.post('/api/customer/store', customer).then(function (res) {
-        return _this.$router.push("/".concat(res.data.id, "/customer"));
+        return _this.$router.push("/".concat(res.data.id, "/customer/foods"));
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2637,6 +2645,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2871,6 +2885,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39852,48 +39876,58 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "d-flex flex-wrap" },
+      { staticClass: "d-flex justify-content-around flex-wrap" },
       _vm._l(_vm.foodsInfo, function(food, index) {
-        return _c("div", { key: index, staticClass: "w-50" }, [
-          _c("div", { staticClass: "card" }, [
-            _c(
-              "div",
-              { staticClass: "card-body" },
-              [
-                _c("h5", { staticClass: "card-title" }, [
-                  _vm._v(" " + _vm._s(food.name))
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-subtitle text-muted" }, [
-                  _vm._v(_vm._s(food.restaurant_name) + "'s Restaurant")
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text mt-2" }, [
-                  _vm._v("₱ " + _vm._s(food.price))
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
-                  _vm._v("Available: " + _vm._s(food.quantity))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "router-link",
-                  { attrs: { to: "/" + _vm.id + "/customer/view/" + index } },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" }
-                      },
-                      [_vm._v("view")]
-                    )
-                  ]
-                )
-              ],
-              1
-            )
-          ])
+        return _c("div", { key: index }, [
+          _c(
+            "div",
+            { staticClass: "card mt-4", staticStyle: { width: "18rem" } },
+            [
+              _c("img", {
+                staticClass: "card-img-top",
+                staticStyle: { width: "100%", height: "12rem" },
+                attrs: { src: "/images/" + food.image, alt: "food image" }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c("h5", { staticClass: "card-title" }, [
+                    _vm._v(" " + _vm._s(food.name))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-subtitle text-muted" }, [
+                    _vm._v(_vm._s(food.restaurant_name) + "'s Restaurant")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text mt-2" }, [
+                    _vm._v("₱ " + _vm._s(food.price))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v("Available: " + _vm._s(food.quantity))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/" + _vm.id + "/customer/view/" + index } },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("view")]
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
+          )
         ])
       }),
       0
@@ -39969,52 +40003,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mx-auto w-50 mt-4" }, [
-    _c("div", [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("h5", { staticClass: "card-title" }, [
-            _vm._v(" " + _vm._s(_vm.foodsInfo[_vm.index].name) + " ")
-          ]),
+  return _vm.foodsInfo.length > 0
+    ? _c("div", { staticClass: "mx-auto w-50 mt-4" }, [
+        _c("h2", [_vm._v("Foods Details")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card" }, [
+          _c("img", {
+            staticClass: "card-img-top w-100 h-50",
+            attrs: {
+              src: "/images/" + _vm.foodsInfo[_vm.index].image,
+              alt: "food image"
+            }
+          }),
           _vm._v(" "),
-          _c("p", { staticClass: "card-text" }, [
-            _vm._v("₱ " + _vm._s(_vm.foodsInfo[_vm.index].price))
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "card-text border-bottom" }, [
-            _vm._v("Available: " + _vm._s(_vm.foodsInfo[_vm.index].quantity))
-          ]),
-          _vm._v(" "),
-          _c("h6", { staticClass: "card-title" }, [
-            _vm._v(" " + _vm._s(_vm.foodsInfo[_vm.index].restaurant_name) + " ")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "card-text" }, [
-            _vm._v(
-              "Managed by: " + _vm._s(_vm.foodsInfo[_vm.index].restaurant_owner)
+          _c("div", { staticClass: "card-body" }, [
+            _c("h5", { staticClass: "card-title" }, [
+              _vm._v(" " + _vm._s(_vm.foodsInfo[_vm.index].name) + " ")
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "card-text" }, [
+              _vm._v("₱ " + _vm._s(_vm.foodsInfo[_vm.index].price))
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "card-text border-bottom" }, [
+              _vm._v("Available: " + _vm._s(_vm.foodsInfo[_vm.index].quantity))
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "card-title" }, [
+              _vm._v(
+                " " + _vm._s(_vm.foodsInfo[_vm.index].restaurant_name) + " "
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "card-text" }, [
+              _vm._v(
+                "Managed by: " +
+                  _vm._s(_vm.foodsInfo[_vm.index].restaurant_owner)
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "card-text" }, [
+              _vm._v(
+                "Located at: " +
+                  _vm._s(_vm.foodsInfo[_vm.index].restaurant_address)
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                attrs: { type: "button" },
+                on: { click: _vm.makeOrder }
+              },
+              [_vm._v("Place Order")]
             )
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "card-text" }, [
-            _vm._v(
-              "Located at: " +
-                _vm._s(_vm.foodsInfo[_vm.index].restaurant_address)
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-success",
-              attrs: { type: "button" },
-              on: { click: _vm.makeOrder }
-            },
-            [_vm._v("Place Order")]
-          )
+          ])
         ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40776,25 +40823,28 @@ var render = function() {
       _vm._v("add food to your restaurant")
     ]),
     _vm._v(" "),
-    _c("form", { attrs: { id: "addFood" } }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
-      _vm._m(2),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-block",
-            attrs: { type: "submit" },
-            on: { click: _vm.saveFood }
-          },
-          [_vm._v("Submit")]
-        )
-      ])
-    ])
+    _c(
+      "form",
+      {
+        attrs: {
+          id: "addFood",
+          method: "POST",
+          action: "/api/food/store/" + _vm.id,
+          enctype: "multipart/form-data"
+        }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._m(4)
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -40810,7 +40860,8 @@ var staticRenderFns = [
         attrs: {
           type: "text",
           name: "name",
-          placeholder: "food name ex. adobo"
+          placeholder: "food name ex. adobo",
+          required: ""
         }
       })
     ])
@@ -40824,7 +40875,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "number", name: "price", placeholder: "₱" }
+        attrs: { type: "number", name: "price", placeholder: "₱", required: "" }
       })
     ])
   },
@@ -40840,9 +40891,35 @@ var staticRenderFns = [
         attrs: {
           type: "number",
           name: "quantity",
-          placeholder: "# Available Servings or Stock"
+          placeholder: "# Available Servings or Stock",
+          required: ""
         }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "image" } }, [_vm._v("Image")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control-file",
+        attrs: { type: "file", name: "image", required: "" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary btn-block", attrs: { type: "submit" } },
+        [_vm._v("Submit")]
+      )
     ])
   }
 ]
@@ -41075,64 +41152,92 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "d-flex flex-wrap" },
-    _vm._l(_vm.foods, function(food) {
-      return _c("div", { key: food.id, staticClass: "w-50" }, [
-        _c("div", { staticClass: "card" }, [
+  return _c("div", [
+    _vm.foods.length > 0
+      ? _c("div", { staticClass: "mt-3" }, [
+          _c("h2", [_vm._v("Your Foods")]),
+          _vm._v(" "),
           _c(
             "div",
-            { staticClass: "card-body" },
-            [
-              _c("h5", { staticClass: "card-title" }, [
-                _vm._v(_vm._s(food.name))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [
-                _vm._v("₱ " + _vm._s(food.price))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [
-                _vm._v("Available Units: " + _vm._s(food.quantity))
-              ]),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                { attrs: { to: "/" + _vm.id + "/seller/edit/" + food.id } },
-                [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-outline-secondary",
-                      attrs: { type: "button" }
-                    },
-                    [_vm._v("Edit")]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.deleteFood(food.id)
-                    }
-                  }
-                },
-                [_vm._v("Delete")]
-              )
-            ],
-            1
+            { staticClass: "d-flex justify-content-around flex-wrap" },
+            _vm._l(_vm.foods, function(food, index) {
+              return _c("div", { key: index }, [
+                _c(
+                  "div",
+                  { staticClass: "card mt-4", staticStyle: { width: "18rem" } },
+                  [
+                    _c("img", {
+                      staticClass: "card-img-top",
+                      staticStyle: { width: "100%", height: "12rem" },
+                      attrs: {
+                        src: "/images/" + food.image_name,
+                        alt: "food image"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      [
+                        _c("h5", { staticClass: "card-title" }, [
+                          _vm._v(_vm._s(food.name))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v("₱ " + _vm._s(food.price))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "card-text" }, [
+                          _vm._v("Available Units: " + _vm._s(food.quantity))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: "/" + _vm.id + "/seller/edit/" + food.id
+                            }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-outline-secondary btn-block",
+                                attrs: { type: "button" }
+                              },
+                              [_vm._v("Edit")]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-block mt-2",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteFood(food.id)
+                              }
+                            }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ])
+            }),
+            0
           )
         ])
-      ])
-    }),
-    0
-  )
+      : _c("div", { staticClass: "mt-4 text-center" }, [
+          _c("h2", [_vm._v("add food to your restaurant")])
+        ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

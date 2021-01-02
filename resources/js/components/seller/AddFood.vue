@@ -1,21 +1,27 @@
 <template>
     <div>
         <h5 class="text-muted my-4">add food to your restaurant</h5>
-        <form id="addFood">
+        <form id="addFood" method="POST" :action="`/api/food/store/${id}`" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Food Name</label>
-                <input type="text" class="form-control" name="name" placeholder="food name ex. adobo">
+                <input type="text" class="form-control" name="name" placeholder="food name ex. adobo" required>
             </div>
             <div class="form-group">
                 <label for="price">Price</label>
-                <input type="number" class="form-control"  name="price" placeholder="₱">
+                <input type="number" class="form-control"  name="price" placeholder="₱" required>
             </div>
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input type="number" class="form-control" name="quantity" placeholder="# Available Servings or Stock">
+                <input type="number" class="form-control" name="quantity" placeholder="# Available Servings or Stock" required>
             </div>
+
+              <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" class="form-control-file" name="image" required>
+            </div>
+
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" @click="saveFood">Submit</button>
+                <button type="submit" class="btn btn-primary btn-block" >Submit</button>
             </div>
         </form>
     </div>

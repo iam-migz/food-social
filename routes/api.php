@@ -33,7 +33,7 @@ Route::prefix('/seller')->group( function() {
 Route::prefix('/food')->group( function() {
     Route::get('/index', [FoodController::class, 'index']);
     Route::get('/info', [FoodController::class, 'getFoodsInfo']);
-    Route::post('/store', [FoodController::class, 'store']);
+    Route::post('/store/{id}', [FoodController::class, 'store']);
     Route::get('/{id}', [FoodController::class, 'show']);
     Route::put('/{id}', [FoodController::class, 'update']);
     Route::delete('/{id}', [FoodController::class, 'destroy']);

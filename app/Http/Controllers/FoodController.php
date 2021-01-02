@@ -23,17 +23,23 @@ class FoodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $food = new Food;
+    public function store(Request $request,  $id)
+   {
 
-        $food->seller_id = $request->seller_id;
+        // save image to public folder 
+        $filename = $request->image->getClientOriginalName();
+        $request->image->storeAs('images' ,$filename, 'public');
+        
+
+        $food = new Food;
+        $food->seller_id = $id;
         $food->name = $request->name;
         $food->price = $request->price;
         $food->quantity = $request->quantity;
+        $food->image_name = $filename;
         $food->save();
 
-        return $food;
+        return redirect('/'.$id.'/seller/list');
     }
 
     /**
@@ -87,6 +93,7 @@ class FoodController extends Controller
                 'id' => $food->id,
                 'seller_id' => $food->seller_id,
                 'name' => $food->name,
+                'image' => $food->image_name,
                 'price' => $food->price,
                 'quantity' => $food->quantity,
                 'restaurant_name' => $food->seller->restaurant_name,

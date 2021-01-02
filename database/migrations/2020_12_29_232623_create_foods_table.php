@@ -19,6 +19,7 @@ class CreateFoodsTable extends Migration
             $table->foreignId('seller_id')->constrained('sellers')->onDelete('cascade');
 
             $table->string('name');
+            $table->string('image_name');
             $table->unsignedInteger('price');
             $table->unsignedInteger('quantity');
             $table->timestamps();

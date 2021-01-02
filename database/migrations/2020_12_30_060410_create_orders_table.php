@@ -19,8 +19,6 @@ class CreateOrdersTable extends Migration
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
 
-            $table->unsignedInteger('amount');
-
             $table->boolean('completed');
 
             $table->timestamps();

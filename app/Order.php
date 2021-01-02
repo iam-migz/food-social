@@ -8,6 +8,8 @@ use App\Customer;
 
 class Order extends Model
 {
+    protected $guarded = [];
+
     public function food(){
         return $this->belongsTo(Food::class);
     }

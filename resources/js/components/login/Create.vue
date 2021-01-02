@@ -119,7 +119,7 @@ export default {
             }
 
             axios.post('/api/customer/store', customer)
-                .then(res => this.$router.push(`/${res.data.id}/customer`))
+                .then(res => this.$router.push(`/${res.data.id}/customer/foods`))
                 .catch(err => console.log(err));
         },
         createSeller(event){
