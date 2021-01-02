@@ -9,8 +9,9 @@
             >
                 <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ food.restaurant_name }}'s {{ food.name }}</h5>
-                    <p class="card-text">₱ {{ food.price }}</p>
+                    <h5 class="card-title"> {{ food.name }}</h5>
+                    <p class="card-subtitle text-muted">{{ food.restaurant_name }}'s Restaurant</p>
+                    <p class="card-text mt-2">₱ {{ food.price }}</p>
                     <p class="card-text">Available: {{ food.quantity }}</p>
                     <router-link :to="`/${id}/customer/view/${index}`">
                         <button type="button" class="btn btn-primary">view</button>

@@ -2010,13 +2010,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       id: this.$route.params.id,
       customer: {},
       foodsInfo: [],
-      restaurants: []
+      foodsInfoCopy: []
     };
   },
   methods: {
@@ -2033,25 +2034,27 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios.get('/api/food/info').then(function (res) {
-        return _this2.foodsInfo = res.data;
+        _this2.foodsInfo = res.data;
+        _this2.foodsInfoCopy = res.data;
       })["catch"](function (err) {
         return console.log(err);
       });
     },
-    getSeller: function getSeller() {
-      var _this3 = this;
-
-      axios.get('/api/seller/index').then(function (res) {
-        return _this3.restaurants = res.data;
-      })["catch"](function (err) {
-        return console.log(err);
+    search: function search() {
+      var input = document.querySelector('input#search');
+      if (input.value === '') return;
+      this.foodsInfo = this.foodsInfoCopy;
+      this.foodsInfo = this.foodsInfo.filter(function (elem) {
+        return elem.name.includes(input.value);
       });
+    },
+    filterReset: function filterReset() {
+      this.foodsInfo = this.foodsInfoCopy;
     }
   },
   created: function created() {
     this.getCustomer();
     this.getFoods();
-    this.getSeller();
   }
 });
 
@@ -2066,6 +2069,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -2135,7 +2139,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['restaurantList']
+  data: function data() {
+    return {
+      restaurants: []
+    };
+  },
+  methods: {
+    getSeller: function getSeller() {
+      var _this = this;
+
+      axios.get('/api/seller/index').then(function (res) {
+        return _this.restaurants = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    this.getSeller();
+  }
 });
 
 /***/ }),
@@ -7555,7 +7577,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "ul[data-v-81fdc658] {\n  list-style: none;\n}", ""]);
+exports.push([module.i, "ul[data-v-81fdc658] {\n  list-style: none;\n}\nsvg[data-v-81fdc658] {\n  transition: all 0.1s ease-in-out;\n  color: grey;\n}\nsvg.icon[data-v-81fdc658]:hover {\n  transition: all 0.2s ease-in-out;\n  transform: scale(1.2);\n  color: #3490dc;\n}\nsvg#search[data-v-81fdc658]:hover {\n  color: #3490dc;\n}\nsvg#reset[data-v-81fdc658]:hover {\n  color: red;\n}", ""]);
 
 // exports
 
@@ -39664,23 +39686,36 @@ var render = function() {
               _c("input", {
                 staticClass: "form-control w-75 mr-3",
                 attrs: {
-                  type: "email",
+                  type: "text",
                   id: "search",
                   placeholder: "search here ex. adobo"
+                },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    return _vm.search($event)
+                  }
                 }
               }),
               _vm._v(" "),
               _c(
                 "svg",
                 {
-                  staticClass: "w-6 h-6",
-                  staticStyle: { width: "25px", color: "grey" },
+                  staticClass: "icon",
+                  staticStyle: { width: "25px" },
                   attrs: {
+                    id: "search",
                     fill: "none",
                     stroke: "currentColor",
                     viewBox: "0 0 24 24",
                     xmlns: "http://www.w3.org/2000/svg"
-                  }
+                  },
+                  on: { click: _vm.search }
                 },
                 [
                   _c("path", {
@@ -39689,6 +39724,32 @@ var render = function() {
                       "stroke-linejoin": "round",
                       "stroke-width": "2",
                       d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "svg",
+                {
+                  staticClass: "ml-2 icon",
+                  staticStyle: { width: "25px" },
+                  attrs: {
+                    id: "reset",
+                    fill: "none",
+                    stroke: "currentColor",
+                    viewBox: "0 0 24 24",
+                    xmlns: "http://www.w3.org/2000/svg"
+                  },
+                  on: { click: _vm.filterReset }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "stroke-linecap": "round",
+                      "stroke-linejoin": "round",
+                      "stroke-width": "2",
+                      d: "M6 18L18 6M6 6l12 12"
                     }
                   })
                 ]
@@ -39758,12 +39819,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("router-view", {
-          attrs: {
-            "foods-info": _vm.foodsInfo,
-            "restaurant-list": _vm.restaurants
-          }
-        })
+        _c("router-view", { attrs: { "foods-info": _vm.foodsInfo } })
       ],
       1
     )
@@ -39805,12 +39861,14 @@ var render = function() {
               { staticClass: "card-body" },
               [
                 _c("h5", { staticClass: "card-title" }, [
-                  _vm._v(
-                    _vm._s(food.restaurant_name) + "'s " + _vm._s(food.name)
-                  )
+                  _vm._v(" " + _vm._s(food.name))
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "card-text" }, [
+                _c("p", { staticClass: "card-subtitle text-muted" }, [
+                  _vm._v(_vm._s(food.restaurant_name) + "'s Restaurant")
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "card-text mt-2" }, [
                   _vm._v("₱ " + _vm._s(food.price))
                 ]),
                 _vm._v(" "),
@@ -39870,7 +39928,7 @@ var render = function() {
     _c(
       "div",
       { staticClass: "d-flex flex-wrap mt-3 mx-auto" },
-      _vm._l(_vm.restaurantList, function(restaurant, index) {
+      _vm._l(_vm.restaurants, function(restaurant, index) {
         return _c("div", { key: index, staticClass: "w-50" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-body" }, [

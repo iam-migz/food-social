@@ -5,7 +5,7 @@
         <div class="d-flex flex-wrap mt-3 mx-auto">
 
             <div class="w-50" 
-                v-for="(restaurant, index) in restaurantList"
+                v-for="(restaurant, index) in restaurants"
                 :key="index"
             >
                 <div class="card">
@@ -23,7 +23,21 @@
 
 <script>
 export default {
-    props: ['restaurantList']
+    data(){
+        return {
+            restaurants: [],
+        }
+    },
+    methods: {
+        getSeller(){
+            axios.get('/api/seller/index')
+                 .then(res => this.restaurants = res.data)
+                 .catch(err => console.log(err));
+        }
+    },
+    created(){
+        this.getSeller();
+    }
 }
 </script>
 
