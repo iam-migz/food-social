@@ -99,7 +99,9 @@ class CustomerController extends Controller
         $ordersArray = [];
         $customer = Customer::find($id);
 
-        $orders = $customer->orders->where('completed', '=', 0);
+        // do this filter in the front-end
+        // $orders = $customer->orders->where('completed', '=', 0); 
+        $orders = $customer->orders;
 
         foreach($orders as $order) {
             $information = [

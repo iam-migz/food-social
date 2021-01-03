@@ -18,8 +18,11 @@ import NewOrders from './components/seller/NewOrders';
 import Customer from './components/customer/Customer';
 import Foods from './components/customer/Foods';
 import Restaurants from './components/customer/Restaurants';
-import YourOrders from './components/customer/YourOrders';
 import ViewFood from './components/customer/ViewFood';
+
+import CustomerOrders from './components/customer/CustomerOrders';
+import YourOrders from './components/customer/YourOrders';
+import MadeOrders from './components/customer/MadeOrders';
 
 Vue.use(VueRouter);
 
@@ -49,7 +52,12 @@ export default new VueRouter({
             [
                 { path: 'foods', component: Foods },
                 { path: 'restaurants', component: Restaurants },
-                { path: 'yourorders', component: YourOrders },
+                { path: 'orders', component: CustomerOrders, children: 
+                    [
+                        { path: 'new', component: YourOrders },
+                        { path: 'completed', component: MadeOrders }
+                    ]
+                },
                 { path: 'view/:index', component: ViewFood }
             ]
         },

@@ -40,7 +40,7 @@ export default {
             }
             console.log(order);
             axios.post('/api/order/store', order)
-                 .then(res => this.$router.push(`/${this.id}/customer/yourorders`) )
+                 .then(res => this.$router.push(`/${this.id}/customer/orders/new`) )
                  .catch(err => console.log(err));
         }
     }

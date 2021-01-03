@@ -1,8 +1,7 @@
 <template>
     <div class="mt-3">
         <div class="title">
-            <h3 v-if="orders.length">{{ orders.length }} order<span v-if="orders.length > 1">s</span> to receive
-            </h3>
+            <h3 v-if="orders.length">Completed Orders</h3>
         </div>
         <div class="d-flex flex-wrap">
 
@@ -31,14 +30,14 @@
                             {{ order.restaurant_phone }}
                         </p>
 
-                        <button type="button" class="btn btn-danger mt-3" @click="deleteOrder(order.order_id)">Cancel Order</button>
+                    
                     </div>
                 </div>
 
             </div>
 
             <div v-if="orders === undefined || orders == 0" class="mt-3 mx-auto">
-                <h3><i>you have no new orders</i></h3>
+                <h3><i>you have no completed orders</i></h3>
             </div>
 
         </div>
@@ -58,13 +57,7 @@ export default {
     methods: {
         getOrderInfo(){
             axios.get(`/api/customer/orders/${this.id}`)
-                //  .then(res => this.orders = res.data )
-                 .then(res => this.orders = res.data.filter(order => !order.order_completed) )
-                 .catch(err => console.log(err));
-        },
-        deleteOrder(order_id){
-            axios.delete(`/api/order/${order_id}`)
-                 .then(res => this.$router.go())
+                 .then(res => this.orders = res.data.filter(order => order.order_completed) )
                  .catch(err => console.log(err));
         }
 

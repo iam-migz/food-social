@@ -31,7 +31,7 @@
                     <button type="button" class="btn btn-outline-primary">Restaurants</button>
                 </router-link>
             
-                <router-link :to="`/${id}/customer/yourorders`" class="mr-3">
+                <router-link :to="`/${id}/customer/orders`" class="mr-3">
                     <button type="button" class="btn btn-outline-primary">Your Orders</button>
                 </router-link>
             </div>

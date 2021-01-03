@@ -54,7 +54,9 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $order->completed = 1;
+        $order->food->quantity = $order->food->quantity - 1; 
         $order->save();
+        $order->food->save();
         return $order;
     }
 
