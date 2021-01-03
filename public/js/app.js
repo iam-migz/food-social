@@ -41235,7 +41235,7 @@ var render = function() {
           )
         ])
       : _c("div", { staticClass: "mt-4 text-center" }, [
-          _c("h2", [_vm._v("add food to your restaurant")])
+          _c("h2", [_vm._v("You have no food listed")])
         ])
   ])
 }

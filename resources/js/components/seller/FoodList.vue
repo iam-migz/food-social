@@ -25,7 +25,7 @@
             </div> 
         </div>
         <div class="mt-4 text-center" v-else>
-            <h2>add food to your restaurant</h2>
+            <h2>You have no food listed</h2>
 
         </div>
     </div>
